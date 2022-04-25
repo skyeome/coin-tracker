@@ -3,8 +3,6 @@
 [**coin-tracker**](https://skyeome.github.io/coin-tracker/)<br/>
 Top 50 까지의 코인들의 가격을 실시간 그래프로 볼 수 있는 간단한 React 어플리캐이션 입니다.
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
-
 ## 사용된 라이브러리 & api
 
 **Library**
@@ -35,3 +33,7 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 상단에 위치한 차트,가격 탭을 누르면 가격에 대한 그래프를 확인 할 수 있으며, <br/>
 그래프 아래에는 현재 코인 순위와 가격이 위치해있으며, 상세설명(영문)과 정보를 확인 할 수있습니다.
+
+---
+
+This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
