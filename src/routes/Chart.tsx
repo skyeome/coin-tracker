@@ -1,8 +1,6 @@
 import { useQuery } from "react-query";
 import { fetchCoinHistory } from "../api";
 import ApexChart from "react-apexcharts";
-import { useRecoilValue } from "recoil";
-import { isDarkAtom } from "../atoms";
 
 export interface ChartParams {
   coinId:string;
@@ -17,62 +15,46 @@ export interface IHistorical {
   volume: number;
   market_cap: number;
 }
-function Chart({coinId}:ChartParams){
-  const isDark = useRecoilValue(isDarkAtom);
+
+function Price({coinId}:ChartParams){
   const {isLoading, data} = useQuery<IHistorical[]>(["ohlcv",coinId], ()=> fetchCoinHistory(coinId));
+
+  const mappedSeries = data?.map(val=>
+    ({x:`${new Date(val.time_open).getMonth()}-${new Date(val.time_open).getDate()}` ,y:[val.open.toFixed(3),val.high.toFixed(3),val.low.toFixed(3),val.close.toFixed(3)]}));
+
   return (
     <div>
-    {isLoading ? "Loading..." : <ApexChart
-      type="line" 
-      series={[
-        {
-          name:`${coinId}`,
-          data:data?.map(price=>price.close) ?? []
-        }
-      ]}
-      options={{
-        theme:{
-          mode:isDark ? "dark" : "light"
-        },
-        xaxis:{
-          axisBorder:{show:false},
-          axisTicks:{show:false},
-          labels:{show:false},
-          categories:data?.map(time => time.time_open) ?? [],
-          type:"datetime"
-        },
-        chart:{
-          toolbar:{
-            show:false
-          },
-          height:500,
-          background: "transparent"
-        },
-        grid: {
-          show:false
-        },
-        stroke: {
-          curve:"smooth",
-          width: 2
-        },
-        fill: {
-          type:"gradient",
-          gradient:{
-            gradientToColors:["#92FE9D"], stops:[0,100]
-          }
-        },
-        colors:["#00C9FF"],
-        tooltip:{
-          y:{
-            formatter:(val => `$${val.toFixed(2)}`)
-          }
-        },
-        yaxis:{
-          show:false
-        }
-      }}
-    />}
+      {isLoading ? "Loading..." : 
+        <ApexChart 
+          type="candlestick" 
+          series={[
+            {data:mappedSeries as unknown as number[]}
+          ]}
+          options={{
+            theme:{
+              mode:"dark"
+            },
+            xaxis:{
+              axisBorder:{show:false},
+              axisTicks:{show:false},
+              labels:{show:false}
+            },
+            yaxis:{
+              show:false
+            },
+            chart:{
+              toolbar:{
+                show:false
+              },
+              height:500,
+              background: "transparent"
+            },
+            grid: {
+              show:false
+            },
+          }} />
+      }
     </div>
   );
 }
-export default Chart;
+export default Price;

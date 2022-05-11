@@ -12,6 +12,7 @@ declare module 'styled-components' {
       main: string;
       cardBg: string;
       cardText: string;
+      borderColor: string;
     };
   }
 }

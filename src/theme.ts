@@ -15,7 +15,8 @@ export const lightTheme:DefaultTheme = {
     boxBg:"white",
     main:"#9c88ff",
     cardBg:"white",
-    cardText: "#111"
+    cardText: "#111",
+    borderColor:"#ddd"
   }
 };
 
@@ -27,6 +28,7 @@ export const darkTheme:DefaultTheme = {
     boxBg:"rgba(0,0,0,.5)",
     main:"#9c88ff",
     cardBg:"white",
-    cardText:"#111"
+    cardText:"#111",
+    borderColor:"#555"
   }
 }

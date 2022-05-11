@@ -1,9 +1,9 @@
-//import { useEffect, useState } from "react";
-import { Helmet } from "react-helmet-async";
 import { useQuery } from "react-query";
 import { Link, Route, Routes, useLocation, useMatch, useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
 import { fetchCoinInfo, fetchCoinTickers } from "../api";
+import Head from "../Components/Head";
+import ToggleDark from "../Components/ToggleDark";
 import Chart from "./Chart";
 import Price from "./Price";
 
@@ -68,16 +68,16 @@ const TabItem = styled.li<{isActive:boolean}>`
   }
 `;
 const TabCnt = styled.div`
-  height: 300px;
+  min-height: 300px;
 `;
-const GoBack = styled.button`
+const GoBack = styled.div`
   color:${props=>props.theme.colors.text};
   background:transparent;
   border:0;
-  font-size:48px;
+  font-size:40px;
   position: absolute;
-  left: 0;
-  top:15px;
+  top:1.8rem;
+  left: 10px;
 `;
 interface Params {
   id:string;
@@ -204,12 +204,11 @@ function Coin(){
   const navigate = useNavigate();
   return (
   <Container>
-    <Helmet>
-        <title>{state?.name ? state.name : loading ? "Loading..." : infoData?.name}</title>
-    </Helmet>
+    <Head title={state?.name ? state.name : loading ? "Loading..." : infoData?.name} />
     <Header>
-      <GoBack onClick={()=>navigate(-1)}>&larr;</GoBack>
+      <GoBack onClick={()=>navigate("..")}><i className="fa-solid fa-angle-left"></i></GoBack>
       <Title>{state?.name ? state.name : loading ? "Loading..." : infoData?.name}</Title>
+      <ToggleDark />
     </Header>
     {loading ? (
         <Loader>Loading...</Loader>
@@ -220,12 +219,12 @@ function Coin(){
               <Link to="chart">Chart</Link>
             </TabItem>
             <TabItem isActive={priceMatch !== null}>
-              <Link to="price">Price</Link>
+              <Link to="price" state={{price:priceData}}>Price</Link>
             </TabItem>
           </TabWrap>
           <TabCnt>
             <Routes>
-              <Route path="price" element={<Price coinId={id} />} />
+              <Route path="price" element={<Price />} />
               <Route path="chart" element={<Chart coinId={id} />} />
             </Routes>
           </TabCnt>
